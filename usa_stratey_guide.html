@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025 미국 진출 전략 가이드 | 인터랙티브 리포트</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Harmony (Warm Neutrals with Teal/Blue Accent) -->
+    <!-- Application Structure Plan: The application is designed as a top-down interactive dashboard. It starts with a high-level overview (Key Indicators & Issues), allowing users to immediately grasp the current market situation. It then progresses to deeper, thematic sections (Deep Dive, Strategic Toolkit) that are accessible via a sticky navigation bar for both guided exploration and direct access. This layered approach enables users to either get a quick summary or explore specific topics in detail, which is more effective for data synthesis than a linear report structure. The final sections focus on actionable opportunities (Export/Investment), providing a clear path from analysis to strategy. -->
+    <!-- Visualization & Content Choices: Economic trends are shown using Chart.js line/bar charts for intuitive time-series comparison. Complex topics like Key Issues and SWOT analysis are presented using interactive cards and tabs, which break down information into digestible chunks and reduce cognitive load. Promising export items are listed in a scannable card layout for quick review. This structure intentionally avoids dense text blocks in favor of interactive, visual components to maximize user engagement and understanding, while strictly adhering to the NO SVG/Mermaid constraint. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Noto Sans KR', 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .nav-link {
+            transition: all 0.3s ease;
+        }
+        .nav-link.active {
+            color: #0d9488; /* teal-600 */
+            border-bottom-color: #0d9488;
+        }
+        .tab-button.active {
+            background-color: #0d9488;
+            color: white;
+        }
+        .swot-card.active {
+            transform: scale(1.05);
+            border-color: #0d9488;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-bold text-teal-700">2025 미국 진출 전략</h1>
+            <div class="hidden md:flex space-x-8">
+                <a href="#dashboard" class="nav-link text-slate-600 hover:text-teal-600 border-b-2 border-transparent pb-1">핵심 지표</a>
+                <a href="#issues" class="nav-link text-slate-600 hover:text-teal-600 border-b-2 border-transparent pb-1">주요 이슈</a>
+                <a href="#strategy" class="nav-link text-slate-600 hover:text-teal-600 border-b-2 border-transparent pb-1">진출 전략</a>
+                <a href="#opportunities" class="nav-link text-slate-600 hover:text-teal-600 border-b-2 border-transparent pb-1">유망 품목</a>
+                <a href="#relations" class="nav-link text-slate-600 hover:text-teal-600 border-b-2 border-transparent pb-1">한미 교류</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        
+        <section id="dashboard" class="scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center mb-2">2025 미국 시장 한눈에 보기</h2>
+            <p class="text-center text-slate-500 mb-10">핵심 경제 지표와 주요 이슈를 통해 미국 시장의 현재와 미래를 조망합니다.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="font-bold text-lg mb-4 text-slate-700">주요 경제 지표 전망 (2024-2026)</h3>
+                    <div class="chart-container" style="height: 250px;">
+                        <canvas id="economicOutlookChart"></canvas>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md lg:col-span-2">
+                     <h3 class="font-bold text-lg mb-4 text-slate-700">2025년 6대 핵심 이슈</h3>
+                     <p class="text-sm text-slate-500 mb-4">카드를 클릭하여 상세 내용을 확인하세요.</p>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        <div class="issue-card" data-target="issue-1">
+                            <h4 class="font-semibold">🏛️ 정책 변화</h4><p class="text-xs text-slate-500">대선 결과에 따른 미국 우선주의 회귀 및 통상 정책 변화</p>
+                        </div>
+                        <div class="issue-card" data-target="issue-2">
+                            <h4 class="font-semibold">🔗 공급망 재편</h4><p class="text-xs text-slate-500">對중 견제 기반, 안보 중심의 리쇼어링/니어쇼어링 가속화</p>
+                        </div>
+                        <div class="issue-card" data-target="issue-3">
+                            <h4 class="font-semibold">💡 전력 수요 급증</h4><p class="text-xs text-slate-500">AI/데이터센터 확대로 인한 전력난과 에너지 전환 가속</p>
+                        </div>
+                         <div class="issue-card" data-target="issue-4">
+                            <h4 class="font-semibold">🤖 AI 도입과 규제</h4><p class="text-xs text-slate-500">산업 전반의 AI 도입 가속화 및 안전성 관련 규제 강화</p>
+                        </div>
+                        <div class="issue-card" data-target="issue-5">
+                            <h4 class="font-semibold">🛍️ 소비 양극화</h4><p class="text-xs text-slate-500">소득 격차 심화로 인한 '바이퍼케이션' 소비 트렌드 확산</p>
+                        </div>
+                         <div class="issue-card" data-target="issue-6">
+                            <h4 class="font-semibold">🚗 전기차 캐즘</h4><p class="text-xs text-slate-500">전기차 성장 둔화, 하이브리드 병행 전략 및 ESS 시장 부상</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="issues" class="scroll-mt-20 bg-white p-6 md:p-8 rounded-xl shadow-md">
+            <h2 class="text-3xl font-bold text-center mb-2">주요 이슈 심층 분석</h2>
+            <p class="text-center text-slate-500 mb-8">2025년 미국 시장의 판도를 바꿀 핵심 동인과 기회 요인을 분석합니다.</p>
+
+            <div class="mb-6 border-b border-slate-200">
+                <div class="flex flex-wrap -mb-px justify-center" id="issue-tabs">
+                    <button class="tab-button active" data-target="issue-1">정책 변화</button>
+                    <button class="tab-button" data-target="issue-2">공급망 재편</button>
+                    <button class="tab-button" data-target="issue-3">전력 수요</button>
+                    <button class="tab-button" data-target="issue-4">AI와 규제</button>
+                    <button class="tab-button" data-target="issue-5">소비 양극화</button>
+                    <button class="tab-button" data-target="issue-6">전기차 캐즘</button>
+                </div>
+            </div>
+
+            <div id="issue-content">
+                <div class="issue-content-panel active" id="issue-panel-1">
+                    <h3 class="text-xl font-bold mb-4">제47대 대통령 선거 결과와 정책 변화</h3>
+                    <p class="text-slate-600 mb-4">2024년 대선에서 트럼프 후보가 당선됨에 따라, 2025년 미국은 강력한 보호무역주의와 '미국 우선주의' 경제 정책으로 회귀할 것이 확실시됩니다. 전 세계 수입품에 대한 보편적 기본 관세(10~20%) 부과, 對중국 60% 관세 인상, 그리고 '상호무역법' 입법 추진 등을 통해 대외 무역적자 해소를 최우선 과제로 삼을 것입니다. 이는 환율 문제, 반도체 수출입 규제 강화, 에너지 정책 변화로 이어져 우리 기업들에게 새로운 도전과 기회를 동시에 제공할 것입니다.</p>
+                    <div class="bg-slate-100 p-4 rounded-lg grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div><h5 class="font-semibold">주요 정책 방향</h5><ul class="list-disc list-inside text-sm text-slate-600"><li>대규모 감세 및 규제 완화</li><li>'Buy American' 정책을 통한 자국 산업 보호 강화</li><li>화석연료 생산 확대 및 친환경 정책 일부 철회</li><li>다자 무역협정 재검토 및 양자 협상 선호</li></ul></div>
+                        <div><h5 class="font-semibold">우리 기업 대응 방안</h5><ul class="list-disc list-inside text-sm text-slate-600"><li>통상 정책 변화에 대한 상시 모니터링</li><li>미국 내 생산 거점 확보 및 현지화 전략 강화</li><li>공급망 다변화를 통한 리스크 분산</li><li>IRA, CHIPS Act 등 기존 정책의 변화 가능성 대비</li></ul></div>
+                    </div>
+                </div>
+                <div class="issue-content-panel" id="issue-panel-2">
+                    <h3 class="text-xl font-bold mb-4">新안보 중심의 공급망 재편</h3>
+                    <p class="text-slate-600 mb-4">미국은 국가안보 개념을 경제·기술 분야로 확장하며 중국을 배제한 공급망 재편을 가속화하고 있습니다. 반도체, 배터리, 바이오 등 핵심 산업에서 '리쇼어링(자국 복귀)'과 '프렌드쇼어링(우방국 이전)'이 핵심 전략으로 부상했습니다. 특히 멕시코가 USMCA 협정을 기반으로 한 니어쇼어링의 최대 수혜지로 떠오르면서, 북미 중심의 새로운 생산 네트워크가 구축되고 있습니다.</p>
+                     <div class="bg-slate-100 p-4 rounded-lg">
+                        <h5 class="font-semibold mb-2">공급망 재편 흐름도 (HTML/CSS로 구현)</h5>
+                        <div class="flex items-center justify-between text-center text-xs md:text-sm">
+                            <div class="flex-1 p-2 bg-red-100 text-red-800 rounded-lg">중국 중심 공급망<br>(의존도 리스크)</div>
+                            <div class="text-2xl font-bold text-slate-400 mx-2">&rarr;</div>
+                            <div class="flex-1 p-2 bg-blue-100 text-blue-800 rounded-lg">미국 본토 (리쇼어링)<br>• IRA/CHIPS Act<br>• 첨단 제조</div>
+                             <div class="text-2xl font-bold text-slate-400 mx-2">+</div>
+                            <div class="flex-1 p-2 bg-green-100 text-green-800 rounded-lg">우방국 (프렌드쇼어링)<br>• 멕시코(니어쇼어링)<br>• 한국/일본 등 동맹</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="issue-content-panel" id="issue-panel-3">
+                    <h3 class="text-xl font-bold mb-4">급증하는 전력 수요와 에너지 전환</h3>
+                    <p class="text-slate-600 mb-4">AI 기술 확산에 따른 데이터센터 건설 붐, 전기차 보급, 제조업 리쇼어링으로 인해 미국의 전력 수요가 폭발적으로 증가하고 있습니다. 2030년 데이터센터의 전력 소비량은 현재의 2.5배에 달할 전망입니다. 이는 노후화된 전력망에 큰 부담을 주며, 안정적인 전력 공급을 위한 에너지저장장치(ESS)와 차세대 원자력(SMR)의 중요성을 부각시키고 있습니다. 탄소 감축 목표와 맞물려, 에너지 시장의 지각변동이 예상됩니다.</p>
+                    <div class="chart-container">
+                        <canvas id="powerDemandChart"></canvas>
+                    </div>
+                </div>
+                <div class="issue-content-panel" id="issue-panel-4">
+                     <h3 class="text-xl font-bold mb-4">AI 도입 가속화와 규제 강화</h3>
+                    <p class="text-slate-600 mb-4">제조, 물류, 뷰티, 푸드테크 등 산업 전반에 AI 도입이 급물살을 타고 있습니다. 기업들은 스마트 팩토리, 자동화 물류 시스템 등을 통해 생산성을 높이고 비용을 절감하고 있습니다. 그러나 AI의 오남용, 데이터 보안, 일자리 문제 등 부작용에 대한 우려도 커지면서 연방정부와 주정부 차원에서 AI 안전성 및 보안에 대한 규제 법안 도입이 활발히 논의되고 있습니다. 기술 발전과 규제 사이의 균형점을 찾는 것이 핵심 과제로 떠올랐습니다.</p>
+                    <div class="bg-slate-100 p-4 rounded-lg grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div><h5 class="font-semibold">AI 도입 유망 분야</h5><ul class="list-disc list-inside text-sm text-slate-600"><li>스마트 팩토리(디지털 트윈, 머신 비전)</li><li>물류 자동화(AMR, 재고관리 드론)</li><li>초개인화 서비스(뷰티 테크, 푸드테크)</li><li>의료 이미징 분석 및 신약 개발</li></ul></div>
+                        <div><h5 class="font-semibold">주요 규제 동향</h5><ul class="list-disc list-inside text-sm text-slate-600"><li>AI 안전 및 보안 표준 개발 (콘텐츠 워터마크 등)</li><li>개인정보 보호 법안 통과 촉구</li><li>AI 알고리즘의 차별 방지 대책 마련</li><li>캘리포니아 SB1047 등 주 단위 규제 선행</li></ul></div>
+                    </div>
+                </div>
+                <div class="issue-content-panel" id="issue-panel-5">
+                     <h3 class="text-xl font-bold mb-4">소비 양극화: 바이퍼케이션(Bifurcation) 경제</h3>
+                    <p class="text-slate-600 mb-4">고물가와 소득 격차 심화로 미국 소비 시장은 양극화 현상인 '바이퍼케이션'이 뚜렷해지고 있습니다. 한편에서는 초고가 명품과 프리미엄 서비스를 소비하는 상류층이, 다른 한편에서는 가성비를 따지며 할인 상품과 PL(Private Label) 제품을 찾는 중·저소득층이 공존합니다. 특히 젊은 세대를 중심으로 프리미엄 브랜드의 저렴이 버전인 '듀프(Dupe)' 제품 소비가 새로운 문화로 자리 잡고 있습니다. 기업들은 양극단의 소비자를 모두 공략하기 위한 이원화된 마케팅 전략이 필요합니다.</p>
+                     <div class="chart-container">
+                        <canvas id="incomeShareChart"></canvas>
+                    </div>
+                </div>
+                <div class="issue-content-panel" id="issue-panel-6">
+                     <h3 class="text-xl font-bold mb-4">전기차 캐즘과 새로운 기회</h3>
+                    <p class="text-slate-600 mb-4">미국 전기차(EV) 시장은 높은 가격, 충전 인프라 부족 등으로 성장세가 둔화되는 캐즘(Chasm) 구간에 진입했습니다. 이에 따라 자동차 제조사들은 순수 전기차와 함께 하이브리드(HEV) 및 플러그인 하이브리드(PHEV) 차량 생산을 병행하는 유연한 전략으로 전환하고 있습니다. 동시에, 전력 수요 증가에 대응하기 위한 에너지저장장치(ESS) 시장이 새로운 블루오션으로 떠오르고 있으며, 가격 경쟁력과 안전성을 갖춘 LFP 배터리에 대한 관심이 높아지고 있습니다.</p>
+                     <div class="bg-slate-100 p-4 rounded-lg">
+                        <h5 class="font-semibold mb-2">시장 변화와 기회</h5>
+                        <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4">
+                            <div class="flex-1 text-center p-3 border border-red-300 rounded-lg">
+                                <p class="font-bold text-red-600">전기차(EV)</p>
+                                <p class="text-sm">수요 둔화, 가격 경쟁 심화</p>
+                            </div>
+                            <div class="text-2xl font-bold text-slate-400 self-center">&rarr;</div>
+                             <div class="flex-1 text-center p-3 border border-blue-300 rounded-lg">
+                                <p class="font-bold text-blue-600">하이브리드(HEV/PHEV)</p>
+                                <p class="text-sm">현실적 대안으로 수요 급증</p>
+                            </div>
+                             <div class="flex-1 text-center p-3 border border-green-300 rounded-lg">
+                                <p class="font-bold text-green-600">에너지저장장치(ESS)</p>
+                                <p class="text-sm">신규 배터리 유망 시장으로 부상</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="strategy" class="scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center mb-2">전략 분석 툴킷</h2>
+            <p class="text-center text-slate-500 mb-10">미국 시장 진출을 위한 PEST 및 SWOT 분석과 이를 기반으로 한 핵심 전략을 확인하세요.</p>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="text-xl font-bold mb-4">PEST 분석</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                        <div class="p-4 bg-blue-50 rounded-lg">
+                            <h4 class="font-bold text-blue-800 mb-2">Political (정치)</h4>
+                            <ul class="list-disc list-inside text-slate-600">
+                                <li>미국 우선주의, 보호무역 강화</li>
+                                <li>對중국 견제 정책 구체화</li>
+                                <li>IRA, CHIPS Act 등 정책 변화 주시</li>
+                                <li>AI, 친환경 분야 규제 시행</li>
+                            </ul>
+                        </div>
+                        <div class="p-4 bg-green-50 rounded-lg">
+                            <h4 class="font-bold text-green-800 mb-2">Economic (경제)</h4>
+                            <ul class="list-disc list-inside text-slate-600">
+                                <li>성장 둔화 속 확장세 지속</li>
+                                <li>금리 인하 사이클 진입</li>
+                                <li>인플레이션 완화 추세</li>
+                                <li>견조한 고용시장 유지</li>
+                            </ul>
+                        </div>
+                        <div class="p-4 bg-yellow-50 rounded-lg">
+                            <h4 class="font-bold text-yellow-800 mb-2">Social (사회)</h4>
+                            <ul class="list-disc list-inside text-slate-600">
+                                <li>소비 양극화(바이퍼케이션)</li>
+                                <li>가성비 웰니스, 듀프 소비 트렌드</li>
+                                <li>다문화, 고령화 사회</li>
+                                <li>ESG 경영 가치 증대</li>
+                            </ul>
+                        </div>
+                        <div class="p-4 bg-red-50 rounded-lg">
+                            <h4 class="font-bold text-red-800 mb-2">Technological (기술)</h4>
+                            <ul class="list-disc list-inside text-slate-600">
+                                <li>산업 전반의 AI 도입 가속화</li>
+                                <li>스마트 제조/물류 인프라 확대</li>
+                                <li>전력 수요 급증 및 ESS 시장 성장</li>
+                                <li>바이오, 신재생에너지 기술 발전</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="text-xl font-bold mb-4">SWOT 분석 및 전략</h3>
+                     <div class="grid grid-cols-2 gap-2 mb-4">
+                        <div class="swot-card p-3 bg-green-100 rounded-lg border-2 border-transparent cursor-pointer" data-strategy="so"><strong>S (강점)</strong><ul class="text-xs list-disc list-inside"><li>첨단산업 생산 거점</li><li>핵심 기술 경쟁력</li><li>가격 및 품질 우위</li></ul></div>
+                        <div class="swot-card p-3 bg-red-100 rounded-lg border-2 border-transparent cursor-pointer" data-strategy="wo"><strong>W (약점)</strong><ul class="text-xs list-disc list-inside"><li>현지 정보/네트워크 부족</li><li>규제/문화 이해 부족</li><li>높은 對중 원부자재 의존도</li></ul></div>
+                        <div class="swot-card p-3 bg-blue-100 rounded-lg border-2 border-transparent cursor-pointer" data-strategy="st"><strong>O (기회)</strong><ul class="text-xs list-disc list-inside"><li>IRA 등 정책 인센티브</li><li>공급망 재편 기회</li><li>對중 견제 반사이익</li><li>비용 부담 완화(금리인하)</li></ul></div>
+                        <div class="swot-card p-3 bg-yellow-100 rounded-lg border-2 border-transparent cursor-pointer" data-strategy="wt"><strong>T (위협)</strong><ul class="text-xs list-disc list-inside"><li>신기술/친환경 규제 심화</li><li>노동 인력 확보 어려움</li><li>소비 시장 성장 제약 우려</li><li>자연재해/인프라 노후화</li></ul></div>
+                    </div>
+                    <div id="swot-strategy-details" class="p-4 bg-slate-50 rounded-lg min-h-[120px]">
+                        <h4 id="strategy-title" class="font-bold text-teal-700 mb-2">전략을 선택하세요</h4>
+                        <p id="strategy-text" class="text-sm text-slate-600">위의 S-O, W-O, S-T, W-T 버튼을 클릭하여 해당 조합에 대한 핵심 전략을 확인하세요.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="opportunities" class="scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center mb-2">수출 유망 품목</h2>
+            <p class="text-center text-slate-500 mb-10">미국 시장의 변화 속에서 새로운 기회를 제공할 유망 상품과 서비스를 소개합니다.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="text-xl font-bold mb-4 text-center">유망 상품 🚀</h3>
+                    <div class="space-y-3">
+                        <div class="opp-card"><strong>대형 변압기 & 전력 케이블:</strong> 전력망 확충 및 노후 인프라 교체 수요</div>
+                        <div class="opp-card"><strong>자동차용 반도체 & 경량화 소재:</strong> ADAS, EV/하이브리드 차량 기술 고도화</div>
+                        <div class="opp-card"><strong>자율 이동 로봇(AMR):</strong> 물류 창고 자동화 및 효율성 증대</div>
+                        <div class="opp-card"><strong>드론용 고성능 배터리 & 온센서 AI:</strong> 국방·산업용 드론 시장 성장</div>
+                        <div class="opp-card"><strong>냉난방 공조 & 히트펌프:</strong> 에너지 효율 중시 및 기후 변화 대응</div>
+                        <div class="opp-card"><strong>지속가능 항공연료(SAF):</strong> 항공업계 탄소중립 목표 달성 핵심</div>
+                    </div>
+                </div>
+                 <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="text-xl font-bold mb-4 text-center">유망 서비스 💡</h3>
+                    <div class="space-y-3">
+                        <div class="opp-card"><strong>원격의료 & 디지털 헬스케어:</strong> 비대면 진료 보편화 및 고령화</div>
+                        <div class="opp-card"><strong>탄소 저감 & 폐배터리 회수 솔루션:</strong> ESG 규제 강화 및 순환 경제 전환</div>
+                        <div class="opp-card"><strong>한식 프랜차이즈 & 밀키트:</strong> K-문화 확산 및 건강식 선호</div>
+                        <div class="opp-card"><strong>산후조리 서비스:</strong> 웰빙 추구 소비층 증가 및 한국식 케어 인기</div>
+                        <div class="opp-card"><strong>생성형 AI 기반 금융/보안 솔루션:</strong> 금융 사기 방지 및 사이버 보안 강화</div>
+                         <div class="opp-card"><strong>디지털 트윈 & 예측 유지보수 시스템:</strong> 스마트 제조 및 운영 효율화</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="relations" class="scroll-mt-20 bg-white p-6 md:p-8 rounded-xl shadow-md">
+            <h2 class="text-3xl font-bold text-center mb-2">한·미 경제 교류 현황</h2>
+            <p class="text-center text-slate-500 mb-8">한국과 미국 간의 교역 및 투자 동향을 데이터로 살펴봅니다.</p>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-lg font-bold mb-4 text-center">對미 교역 동향 (2022-2023)</h3>
+                    <div class="chart-container" style="height: 300px;">
+                        <canvas id="koreaUsTradeChart"></canvas>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4 text-center">한국의 對미 투자 현황 (2023년 업종별)</h3>
+                     <div class="chart-container" style="height: 300px;">
+                        <canvas id="koreaUsInvestmentChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-800 text-white mt-12">
+        <div class="container mx-auto px-6 py-4 text-center text-sm">
+            <p>&copy; 2024 Interactive Market Report. All Rights Reserved.</p>
+            <p class="text-slate-400 mt-1">이 보고서는'2025 미국 진출전략' 보고서를 기반으로 제작되었습니다.</p>
+            <p class="text-slate-400 mt-1"><a href="https://aamond.com" target="_blank" rel="noopener noreferrer">아몬드(AAMOND) 제작</a>
+</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            const economicOutlookData = {
+                labels: ['2023', '2024(E)', '2025(E)', '2026(E)'],
+                datasets: [
+                    {
+                        label: 'GDP 성장률 (%)',
+                        data: [2.5, 2.0, 2.1, 1.8],
+                        borderColor: '#0d9488', // teal-600
+                        backgroundColor: '#0d9488',
+                        tension: 0.1,
+                        yAxisID: 'y'
+                    },
+                    {
+                        label: '실업률 (%)',
+                        data: [3.6, 3.9, 4.0, 4.2],
+                        borderColor: '#f97316', // orange-500
+                        backgroundColor: '#f97316',
+                        tension: 0.1,
+                        yAxisID: 'y'
+                    },
+                    {
+                        label: '소비자물가지수(CPI) (%)',
+                        data: [3.7, 3.0, 2.4, 2.2],
+                        borderColor: '#64748b', // slate-500
+                        backgroundColor: '#64748b',
+                        tension: 0.1,
+                        yAxisID: 'y'
+                    }
+                ]
+            };
+
+            const powerDemandData = {
+                labels: ['2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030'],
+                datasets: [{
+                    label: '미 데이터 센터 전력 소비량 전망 (TWh)',
+                    data: [147, 178, 224, 292, 371, 450, 513, 606],
+                    backgroundColor: 'rgba(13, 148, 136, 0.2)',
+                    borderColor: 'rgba(13, 148, 136, 1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4
+                }]
+            };
+
+            const incomeShareData = {
+                labels: ['1971', '2023'],
+                datasets: [
+                    {
+                        label: '저소득층',
+                        data: [28, 30],
+                        backgroundColor: '#60a5fa', // blue-400
+                    },
+                    {
+                        label: '중산층',
+                        data: [61, 51],
+                        backgroundColor: '#fbbf24', // amber-400
+                    },
+                     {
+                        label: '고소득층',
+                        data: [11, 19],
+                        backgroundColor: '#34d399', // emerald-400
+                    },
+                ]
+            };
+            
+            const koreaUsTradeData = {
+                labels: ['수출액', '수입액', '무역수지'],
+                datasets: [
+                    {
+                        label: '2022 (억 달러)',
+                        data: [1098, 818, 280],
+                        backgroundColor: 'rgba(59, 130, 246, 0.7)',
+                    },
+                     {
+                        label: '2023 (억 달러)',
+                        data: [1157, 713, 444],
+                        backgroundColor: 'rgba(13, 148, 136, 0.7)',
+                    }
+                ]
+            };
+            
+            const koreaUsInvestmentData = {
+                labels: ['금융/보험', '제조업', '정보통신', '부동산', '도소매', '기타'],
+                datasets: [{
+                    label: '2023년 對미 투자액 (백만 달러)',
+                    data: [13390, 10429, 1715, 946, 979, 2761],
+                    backgroundColor: [
+                        '#14b8a6', '#0891b2', '#f97316', '#a855f7', '#64748b', '#facc15'
+                    ],
+                    hoverOffset: 4
+                }]
+            };
+
+            function createChart(ctx, type, data, options) {
+                new Chart(ctx, { type, data, options });
+            }
+
+            const defaultChartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                         labels: {
+                            font: {
+                                size: 10
+                            }
+                        }
+                    },
+                    tooltip: {
+                        enabled: true,
+                        mode: 'index',
+                        intersect: false,
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { display: false },
+                        ticks: { font: { size: 10 } }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: '#e2e8f0' },
+                        ticks: { font: { size: 10 } }
+                    }
+                }
+            };
+            
+            const barChartOptions = JSON.parse(JSON.stringify(defaultChartOptions));
+            barChartOptions.scales.y.beginAtZero = false;
+
+            createChart(document.getElementById('economicOutlookChart').getContext('2d'), 'line', economicOutlookData, defaultChartOptions);
+            createChart(document.getElementById('powerDemandChart').getContext('2d'), 'line', powerDemandData, defaultChartOptions);
+            createChart(document.getElementById('incomeShareChart').getContext('2d'), 'bar', incomeShareData, { ...barChartOptions, indexAxis: 'y' });
+            createChart(document.getElementById('koreaUsTradeChart').getContext('2d'), 'bar', koreaUsTradeData, barChartOptions);
+            createChart(document.getElementById('koreaUsInvestmentChart').getContext('2d'), 'doughnut', koreaUsInvestmentData, {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { position: 'right', labels: {font: {size: 10}} } }
+            });
+
+
+            const issueCards = document.querySelectorAll('.issue-card');
+            issueCards.forEach(card => {
+                card.style.cursor = 'pointer';
+                card.style.transition = 'transform 0.2s';
+                card.addEventListener('mouseover', () => card.style.transform = 'scale(1.05)');
+                card.addEventListener('mouseout', () => card.style.transform = 'scale(1)');
+                card.addEventListener('click', () => {
+                    const targetId = card.dataset.target;
+                    document.getElementById('issue-tabs').querySelector(`[data-target="${targetId}"]`).click();
+                    document.getElementById('issues').scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+
+
+            const issueTabs = document.getElementById('issue-tabs');
+            const issuePanels = document.getElementById('issue-content').children;
+            issueTabs.addEventListener('click', (e) => {
+                if (e.target.tagName === 'BUTTON') {
+                    const targetPanelId = 'issue-panel-' + e.target.dataset.target.split('-')[1];
+                    
+                    issueTabs.querySelector('.active').classList.remove('active');
+                    e.target.classList.add('active');
+
+                    Array.from(issuePanels).forEach(panel => {
+                        panel.classList.remove('active');
+                        if (panel.id === targetPanelId) {
+                            panel.classList.add('active');
+                        }
+                    });
+                }
+            });
+            
+            const swotCards = document.querySelectorAll('.swot-card');
+            const swotStrategyTitle = document.getElementById('strategy-title');
+            const swotStrategyText = document.getElementById('strategy-text');
+            const strategies = {
+                so: { title: 'SO (강점-기회) 전략: 공격적 확장', text: 'IRA, CHIPS Act 등 정부 정책을 활용, 우수한 기술력으로 현지 생산 거점을 구축하고 첨단산업 시장을 적극 공략합니다. 합리적 소비층을 타겟으로 가격·품질 경쟁력 기반 마케팅을 전개합니다.' },
+                wo: { title: 'WO (약점-기회) 전략: 기회 포착 및 약점 보완', text: '현지 전시회 참여, 파트너십/M&A를 통해 네트워크를 확보합니다. 對중국 견제에 따른 반사이익 기회를 잡기 위해 인증 및 기술 표준을 사전에 준비하여 진입 장벽을 낮춥니다.' },
+                st: { title: 'ST (강점-위협) 전략: 차별화를 통한 위협 극복', text: '핵심 기술력을 바탕으로 경쟁사와 차별화된 제품을 개발하여 니치마켓을 공략합니다. 자동화 솔루션으로 인력난을 극복하고, 스마트 인프라 기술로 자연재해 등 리스크에 대응합니다.' },
+                wt: { title: 'WT (약점-위협) 전략: 방어 및 리스크 관리', text: '공급망 다변화를 통해 對중국 의존도 리스크를 완화합니다. 급변하는 AI·친환경 규제에 대한 대응 전략을 선제적으로 수립하여 법적 리스크를 최소화합니다.' }
+            };
+
+            swotCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    swotCards.forEach(c => c.classList.remove('active'));
+                    card.classList.add('active');
+                    const strategyKey = card.dataset.strategy;
+                    swotStrategyTitle.textContent = strategies[strategyKey].title;
+                    swotStrategyText.textContent = strategies[strategyKey].text;
+                });
+            });
+
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('section');
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 100) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').includes(current)) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+            navLinks.forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+            
+            // Add custom styles via JS to avoid complex tailwind classes
+            const OppCards = document.querySelectorAll('.opp-card');
+            OppCards.forEach(card => {
+                card.classList.add('p-4', 'bg-slate-100', 'rounded-lg', 'text-sm', 'text-slate-700', 'hover:shadow-lg', 'hover:bg-teal-50', 'transition-all', 'duration-300', 'cursor-default');
+            });
+            
+            const issueCardStyles = document.querySelectorAll('.issue-card');
+            issueCardStyles.forEach(card => {
+                card.classList.add('p-4', 'bg-slate-100', 'rounded-lg', 'text-slate-700', 'hover:shadow-lg', 'hover:bg-teal-50', 'flex', 'flex-col', 'justify-center', 'items-center', 'text-center');
+            });
+
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => {
+                 button.classList.add('px-4', 'py-2', 'text-sm', 'font-medium', 'text-slate-500', 'border-b-2', 'border-transparent', 'hover:text-teal-600', 'hover:border-teal-600', 'transition-colors', 'duration-300');
+            });
+        });
+    </script>
+</body>
+</html>
